@@ -1,0 +1,76 @@
+---
+title: "MarkdownReport"
+author: "Lara Liberti"
+output: html_document
+date: "2024-01-09"
+---
+# My first Markdown document
+
+Next step will allow to select the language (r) and whether the code will give results (yes), then we tap Knit to see the preview. 
+In the first case we get the result:
+
+```{r, eval = T} 
+2 + 3
+```
+
+In the second case, we don't:
+```{r, eval = F} 
+2 + 3
+```
+
+Using proper packages: the imageRy package have been built for learning purposes (library is written in red as it's a function)
+```{r, eval = T} 
+library(imageRy)
+```
+
+Let's import some data, starting with a list of data:
+```{r, eval = T} 
+im.list()
+```
+
+Let's import the mato grosso image from the data:
+```{r, eval = T} 
+library(imageRy)
+mato1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
+```
+
+In order to get info from the image, just type the name of the object:
+```{r, eval = T} 
+mato1992 
+```
+
+Making a new plot of the Mato Grosso area with the NIR on top o the green component of the RGB space: 
+```{r, eval = T} 
+im.plotRGB(mato1992, 2,1,3)
+```
+
+To import the mato grosso image from the data without warnings from the code, use the function warning = F
+```{r, warning = F} 
+library(imageRy)
+mato1992 <- im.import("matogrosso_l5_1992219_lrg.jpg")
+```
+
+
+Plotting several images all together: 
+```{r, eval = T} 
+par(mfrow=c(2,2))
+im.plotRGB(mato1992, 1,2,3)
+im.plotRGB(mato1992, 2,1,3)
+im.plotRGB(mato1992, 2,3,1)
+im.plotRGB(mato1992, 1,3,2)
+```
+
+Calculating spectral indices:
+```{r, eval=T}
+library(terra)
+library(viridis)
+dvi <- mato1992[[1]]-mato1992[[2]]
+viridisc <- colorRampPalette(viridis(7))(255)
+plot(dvi, col=viridisc)
+```
+
+Calculating variability:
+```{r, eval=T}
+sd5 <- focal(mato1992[[1]], matrix(1/25, 5, 5), fun=sd)
+plot(sd5, col=viridisc)
+```
