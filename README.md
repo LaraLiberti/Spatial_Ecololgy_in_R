@@ -8,5 +8,4 @@ Lara Liberti
 + scripts on communities
 + scripts om ecosystems
 
->**Note**
-> Scripts will be added lecture by lecture
+
